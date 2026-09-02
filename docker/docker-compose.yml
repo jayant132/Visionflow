@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  yoga-agent:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8501:8501"   # Streamlit UI
+      - "8000:8000"   # Prometheus /metrics
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    env_file:
+      - ../.env
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - yoga-agent
+
+volumes:
+  ollama_data:

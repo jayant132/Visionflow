@@ -1,0 +1,15 @@
+streamlit==1.38.0
+opencv-python-headless==4.10.0.84
+mediapipe==0.10.14
+numpy==1.26.4
+tensorflow-cpu==2.16.1
+google-adk==0.1.0
+litellm>=1.60.0
+python-dotenv==1.0.1
+pydantic-settings==2.4.0
+structlog==24.4.0
+prometheus-client==0.20.0
+opentelemetry-api>=1.31.0
+opentelemetry-sdk>=1.31.0
+tenacity>=8.1.0,<9
+pytest==8.3.2
