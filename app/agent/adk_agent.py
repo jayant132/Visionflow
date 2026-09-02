@@ -68,9 +68,11 @@ async def _run_agent_async(analysis: dict) -> str:
     if runner is None:
         return _fallback_feedback(analysis)
 
-    session = await runner.session_service.create_session(
+    session = runner.session_service.create_session(
         app_name=settings.APP_NAME, user_id="streamlit_user"
     )
+    if hasattr(session, "__await__"):
+        session = await session
     prompt = f"Pose analysis JSON: {analysis}"
     content = types.Content(role="user", parts=[types.Part(text=prompt)])
 
